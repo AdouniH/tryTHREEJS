@@ -11,8 +11,12 @@
 
 var scene , camera, render , mesh ;
 var keyboard = {};
-var player={height:1.0, speed:0.03 , turnspeed:Math.PI*0.01};
 var meshFloor;
+var crate, crateTexture, crateNormalMap, crateBumpMap;
+
+
+var player={height:1.0, speed:0.03 , turnspeed:Math.PI*0.01};
+
 function init(){
   scene= new THREE.Scene();
   camera = new THREE.PerspectiveCamera(90, 1280/720 , 0.1, 1000);
@@ -24,16 +28,30 @@ function init(){
   mesh.position.y+=1;
   mesh.recieveShadow = true;
   mesh.castShadow =true;
+
   meshFloor = new THREE.Mesh(
-    new THREE.PlaneGeometry(10,10,10,10),
+    new THREE.PlaneGeometry(20,20,10,10),
     new THREE.MeshPhongMaterial({color:0xffffff,wireframe:false})
   );
   meshFloor.rotation.x-= Math.PI / 2 ;
   meshFloor.recieveShadow = true;
 
+  var textureLoader = new THREE.TextureLoader();
+  crateTexture = new textureLoader.load("txtr.png");
+
+  crate = new THREE.Mesh(
+    new THREE.BoxGeometry(3,3,3),
+    new THREE.MeshPhongMaterial({color:0xffffff,
+    map : crateTexture
+    })
+  )
+  crate.position.set(2.5,3/2,2.5);
+  crate.receiveShadow = true;
+  crate.castShadow = true;
 
   scene.add(meshFloor)
   scene.add(mesh);
+  scene.add(crate);
 
   ambientLight = new THREE.AmbientLight(0xffffff,0.5);
   scene.add(ambientLight);
