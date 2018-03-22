@@ -22,11 +22,16 @@ function init(){
     new THREE.MeshPhongMaterial({color:0xff9999,wireframe:false})
   );
   mesh.position.y+=1;
+  mesh.recieveShadow = true;
+  mesh.castShadow =true;
   meshFloor = new THREE.Mesh(
     new THREE.PlaneGeometry(10,10,10,10),
     new THREE.MeshPhongMaterial({color:0xffffff,wireframe:false})
   );
   meshFloor.rotation.x-= Math.PI / 2 ;
+  meshFloor.recieveShadow = true;
+
+
   scene.add(meshFloor)
   scene.add(mesh);
 
