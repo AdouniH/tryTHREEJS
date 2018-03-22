@@ -11,7 +11,7 @@
 
 var scene , camera, render , mesh ;
 var keyboard = {};
-var player={height:1.0};
+var player={height:1.0, speed:0.03};
 var meshFloor;
 function init(){
   scene= new THREE.Scene();
@@ -25,7 +25,7 @@ function init(){
     new THREE.PlaneGeometry(10,10,10,10),
     new THREE.MeshBasicMaterial({color:0xff9999,wireframe:true})
   );
-  meshFloor.rotation.x+= Math.PI / 2 ;
+  meshFloor.rotation.x-= Math.PI / 2 ;
   scene.add(meshFloor)
   scene.add(mesh);
   camera.position.set(0, player.height,-5);
@@ -42,6 +42,16 @@ function animate(){
   requestAnimationFrame(animate);
   mesh.rotation.x += 0.01;
   mesh.rotation.y += 0.02;
+
+  if (keyboard[87]){ // w key
+    camera.position.x += Math.sin(camera.rotation.y)* player.speed;
+    camera.position.z += Math.cos(camera.rotation.y)* player.speed;
+  }
+
+  if (keyboard[83]){ // s key
+    camera.position.x -= Math.sin(camera.rotation.y)* player.speed;
+    camera.position.z -= Math.cos(camera.rotation.y)* player.speed;
+  }
 
   if (keyboard[37]){ // bouton gauche
     camera.rotation.y -= Math.PI * 0.01;
