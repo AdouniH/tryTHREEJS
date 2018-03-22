@@ -15,7 +15,7 @@ var meshFloor;
 var crate, crateTexture, crateNormalMap, crateBumpMap;
 
 
-var player={height:1.0, speed:0.03 , turnspeed:Math.PI*0.01};
+var player={height:3, speed:0.03 , turnspeed:Math.PI*0.01};
 
 function init(){
   scene= new THREE.Scene();
@@ -29,9 +29,14 @@ function init(){
   mesh.recieveShadow = true;
   mesh.castShadow =true;
 
+  var textureLoader = new THREE.TextureLoader();
+  floorTexture = new textureLoader.load("floor.jpg");
+
   meshFloor = new THREE.Mesh(
     new THREE.PlaneGeometry(20,20,10,10),
-    new THREE.MeshPhongMaterial({color:0xffffff,wireframe:false})
+    new THREE.MeshPhongMaterial({color:0xffffff,wireframe:false,
+    map : floorTexture
+  })
   );
   meshFloor.rotation.x-= Math.PI / 2 ;
   meshFloor.recieveShadow = true;
@@ -82,12 +87,12 @@ function animate(){
   mesh.rotation.x += 0.01;
   mesh.rotation.y += 0.02;
 
-  if (keyboard[87]){ // w key
+  if (keyboard[38]){ // avancer
     camera.position.x -= Math.sin(camera.rotation.y)* player.speed;
     camera.position.z -= -Math.cos(camera.rotation.y)* player.speed;
   }
 
-  if (keyboard[83]){ // s key
+  if (keyboard[40]){ // reculer
     camera.position.x += Math.sin(camera.rotation.y)* player.speed;
     camera.position.z += -Math.cos(camera.rotation.y)* player.speed;
   }
